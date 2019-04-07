@@ -1,0 +1,17 @@
+    def save(self, *args, **kwargs):
+        super().save(*args,**kwargs)
+        im = Image.open(self.image.path)
+        width, height = im.size   # Get dimensions
+
+        if height - width > 50:
+            left = 0
+            top = 0
+            right = width
+            bottom = width
+
+            im = im.crop((left, top, right, bottom))
+            im.save(self.image.path)
+        else:
+            output_size = (300,300)
+            im.thumbnail(output_size)
+            im.save(self.image.path)

@@ -1,0 +1,89 @@
+
+{% extends "home/base.html" %}
+{% block content %}
+
+<div class="col-left-4">
+  <div class="content-section2">
+    <h3>Search for a Brother </h3>
+    <!-- Search form -->
+    <!-- Search form -->
+
+      <p class='text-muted'>You can search by name, employer, year, etc </p>
+      <form class="form-inline md-form mr-auto mb-4" type="get" action="." style="margin: 0">
+      <input type="text" class = "form-control mr-sm-2"name="q" value="" placeholder="Search..." >
+      <button class= "btn btn-outline-primary" type="submit" >Submit</button>
+  </form>
+      <!-- /input-group -->
+ </div><!-- /.col-lg-6 -->
+
+  {% for user in users %}
+  {% if user.major == None %}
+  <div class="content-section">
+    <div class="media">
+      <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+      <div class="media-body">
+        <h2><a class="article-title" href="{% url "user-detail" user.id %}">{{ user.first_name }} {{ user.last_name }}</a></h2>
+        {% if user.profile.year != "" %}
+          <small class="text-muted"> Class of {{ user.profile.year }}</small>
+        {% endif %}
+          <legend class="border-bottom mb-4"></legend>
+          {% if user.profile.major != "" %}
+          <p class="article-content">{{ user.profile.major }}</p>
+          {% endif %}
+        {% if user.profile.position != "" and user.profile.company != "" %}
+        <p class="article-content">{{ user.profile.position }} at {{ user.profile.company }}</p>
+        {% endif %}
+            <p class="article-content">{{ user.email }}</p>
+              <p class="article-content">{{ user.profile.printPhoneNumber }}</p>
+            </div>
+            </div>
+            </div>
+
+  {% else %}
+  <div class="content-section">
+    <div class="media">
+      <img class="rounded-circle account-img" src="{{ user.image.url }}">
+      <div class="media-body">
+        <h2><a class="article-title" href="{% url "user-detail" user.user.id %}">{{ user.user.first_name }} {{ user.user.last_name }}</a></h2>
+        {% if user.year != "" %}
+          <small class="text-muted"> Class of {{ user.year }}</small>
+        {% endif %}
+          <legend class="border-bottom mb-4"></legend>
+          {% if user.major != "" %}
+          <p class="article-content">{{ user.major }}</p>
+          {% endif %}
+        {% if user.position != "" and user.company != "" %}
+        <p class="article-content">{{ user.position }} at {{ user.company }}</p>
+        {% endif %}
+            <p class="article-content">{{ user.user.email }}</p>
+              <p class="article-content">{{ user.printPhoneNumber }}</p>
+            </div>
+            </div>
+            </div>
+
+  {% endif %}
+  {% endfor %}
+
+  {% if is_paginated %}
+
+     {% if page_obj.has_previous %}
+       <a class="btn btn-outline-dark mb-4" href="?page=1">First</a>
+       <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+     {% endif %}
+
+     {% for num in page_obj.paginator.page_range %}
+       {% if page_obj.number == num %}
+         <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+       {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+         <a class="btn btn-outline-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+       {% endif %}
+     {% endfor %}
+
+     {% if page_obj.has_next %}
+       <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+       <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+     {% endif %}
+
+   {% endif %}
+
+{% endblock content %}

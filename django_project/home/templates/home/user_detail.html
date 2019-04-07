@@ -1,0 +1,44 @@
+
+{% extends "home/base.html" %}
+{% block content %}
+
+  {% if user.major == None %}
+  <div class="content-section">
+    <div class="media">
+      <img class="rounded-circle account-img" src="{{ object.profile.image.url }}">
+      <div class="media-body">
+        <h2 class="account-heading">{{ object.first_name }} {{ object.last_name }}</h2>
+        {% if object.profile.year != "" %}
+          <small class="text-muted"> Class of {{ user.profile.year }}</small>
+        {% endif %}
+          <legend class="border-bottom mb-4"></legend>
+          {% if object.profile.major != "" %}
+          <p class="article-content">{{ object.profile.major }}</p>
+          {% endif %}
+        {% if object.profile.position != "" and object.profile.company != "" %}
+        <p class="article-content">{{ object.profile.position }} at {{ object.profile.company }}</p>
+        {% endif %}
+            <p class="article-content">{{ object.email }}</p>
+              <p class="article-content">{{ object.profile.printPhoneNumber }}</p>
+      </div>
+    </div>
+    </div>
+
+    {% else %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ object.image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ object.user.first_name }} {{ object.user.last_name }}</h2>
+          {% if object.year != "" %}
+            <small class="text-muted"> Class of {{ user.profile.year }}</small>
+          {% endif %}
+          <legend class="border-bottom mb-4"></legend>
+          <p class="article-content"> {{ object.major }} </p>
+          {% if object.position != "" and object.company != "" %}
+          <p class="article-content">{{ object.position }} at {{ object.company }}</p>
+          {% endif %}
+              <p class="article-content">{{ object.user.email }}</p>
+                <p class="article-content">{{ object.printPhoneNumber }}</p>
+    {% endif %}
+{% endblock content %}
