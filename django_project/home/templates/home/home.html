@@ -15,9 +15,11 @@
   </form>
       <!-- /input-group -->
  </div><!-- /.col-lg-6 -->
-
-  {% for user in users %}
-  {% if user.major == None %}
+<div class="container">
+{% for user in users %}
+    {% if forloop.first %}<div class="row">{% endif %}
+    <div class="col-md-4">
+           {% if user.major == None %}
   <div class="content-section">
     <div class="media">
       <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
@@ -62,8 +64,11 @@
             </div>
 
   {% endif %}
-  {% endfor %}
-
+        </div>
+    {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
+    {% if forloop.last %}</div>{% endif %}
+{% endfor %}
+</div>
   {% if is_paginated %}
 
      {% if page_obj.has_previous %}
